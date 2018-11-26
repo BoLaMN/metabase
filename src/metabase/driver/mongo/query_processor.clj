@@ -38,10 +38,7 @@
 ;; `cljr-clean-ns` and also cause Eastwood to complain about unused namespaces
 (require 'monger.joda-time
          'monger.json)
-
-(def ^:private ^:const $subtract :$subtract)
-
-
+ 
 ;;; +----------------------------------------------------------------------------------------------------------------+
 ;;; |                                                     Schema                                                     |
 ;;; +----------------------------------------------------------------------------------------------------------------+

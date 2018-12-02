@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "@@MB_NAMESPACE@@/@@MB_REPOSITORY@@:@@MB_TAG@@",
+    "Name": "@@MB_NAMESPACE@@/metabase-head:@@MB_TAG@@",
     "Update": "true"
   },
   "Ports": [

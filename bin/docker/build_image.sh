@@ -5,7 +5,7 @@ set -e
 BASEDIR=$(dirname $0)
 PROJECT_ROOT="$BASEDIR/../.."
 
-DOCKERHUB_NAMESPACE=metabase
+DOCKERHUB_NAMESPACE=bolamn
 
 
 BUILD_TYPE=$1
@@ -56,7 +56,7 @@ else
     echo "Building Docker image ${DOCKER_IMAGE} from local source"
 
     # trigger a full build
-    ${PROJECT_ROOT}/bin/build
+    #${PROJECT_ROOT}/bin/build
 
     if [ $? -eq 1 ]; then
         echo "Build failed!"

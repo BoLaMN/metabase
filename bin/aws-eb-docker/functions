@@ -19,6 +19,7 @@ S3_CF_TEMPLATE_PATH=s3://$ARTIFACTS_S3BUCKET/eb/$CF_TEMPLATE
 make_eb_version() {
     MB_TAG=$1
     MB_DOCKER_REPOSITORY=$2
+    MB_DOCKER_NAMESPACE=$3
 
     $(which locale) | $(which sort) || true
 
@@ -32,12 +33,18 @@ make_eb_version() {
         exit 1
     fi
 
+    if [[ -z $MB_DOCKER_NAMESPACE ]]; then
+        echo "docker namespace not provided!"
+        exit 1
+    fi
+
     RELEASE_FILE="/tmp/${MB_TAG}.zip"
 
     echo "Building Elastic Beanstalk app version for Metabase using Docker Image: metabase/${MB_DOCKER_REPOSITORY}:${MB_TAG}"
 
     # dynamically insert our MB version into the EB config file
     sed "s/@@MB_REPOSITORY@@/${MB_DOCKER_REPOSITORY}/" < ${BASEDIR}/Dockerrun.aws.json.template > ${BASEDIR}/Dockerrun.aws.json.tmp
+    sed -i.bak "s/@@MB_NAMESPACE@@/${MB_DOCKER_NAMESPACE}/" ${BASEDIR}/Dockerrun.aws.json.tmp
     sed "s/@@MB_TAG@@/${MB_TAG}/" < ${BASEDIR}/Dockerrun.aws.json.tmp > ${BASEDIR}/Dockerrun.aws.json
 
     # set the default version in the cloudformation template from the template-template (yo dawg i heard you like templates ;)
@@ -48,6 +55,7 @@ make_eb_version() {
 
     # clean up the temporary Dockerrun.aws.json file we created
     rm ${BASEDIR}/Dockerrun.aws.json.tmp
+    rm ${BASEDIR}/Dockerrun.aws.json.tmp.bak
     rm ${BASEDIR}/Dockerrun.aws.json
 }
 
